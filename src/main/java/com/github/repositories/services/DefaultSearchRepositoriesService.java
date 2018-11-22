@@ -52,7 +52,7 @@ public class DefaultSearchRepositoriesService implements SearchRepositoriesServi
 
     @Override
     public RepositoryDto findDataAndOrderByItem(String text, String language, String item) {
-        String url = urlSearchOrder + text + FILTER_QUERY_ELEMENT + language + SORT_QUERY_ELEMENT + ORDER_TYPE_QUERY_ELEMENT + MAX_ITEMS_PAGES;
+        String url = urlSearchOrder + text + FILTER_QUERY_ELEMENT + language + SORT_QUERY_ELEMENT + item + ORDER_TYPE_QUERY_ELEMENT + MAX_ITEMS_PAGES;
         return apiRepositoriesService.findRepositories(url);
     }
 }

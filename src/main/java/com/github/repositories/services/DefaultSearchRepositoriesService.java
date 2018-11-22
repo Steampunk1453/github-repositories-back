@@ -1,18 +1,16 @@
 package com.github.repositories.services;
 
 import com.github.repositories.dtos.RepositoryDto;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 @Service
-@Slf4j
 public class DefaultSearchRepositoriesService implements SearchRepositoriesService {
 
-    public static final String MAX_ITEMS_PAGES = "&per_page=10";
-    public static final String PAGE = "&page=1";
+    public static final String FILTER_QUERY_ELEMENT= "+language:";
+    public static final String SORT_QUERY_ELEMENT= "&sort=";
+    public static final String ORDER_TYPE_QUERY_ELEMENT= "&order=desc";
+    public static final String MAX_ITEMS_PAGES = "&per_page=20";
 
     @Value("${search.url.language}")
     private String urlSearchLanguage;
@@ -26,21 +24,35 @@ public class DefaultSearchRepositoriesService implements SearchRepositoriesServi
     @Value("${search.url.order}")
     private String urlSearchOrder;
 
-    @Autowired
-    private RestTemplate restTemplate;
+    private final ApiRepositoriesService apiRepositoriesService;
+
+    public DefaultSearchRepositoriesService(ApiRepositoriesService apiRepositoriesService) {
+        this.apiRepositoriesService = apiRepositoriesService;
+    }
 
     @Override
     public RepositoryDto findByLanguage(String language) {
-        return restTemplate.getForObject(urlSearchLanguage + language + MAX_ITEMS_PAGES, RepositoryDto.class);
+        String url = urlSearchLanguage + language + MAX_ITEMS_PAGES;
+        return apiRepositoriesService.findRepositories(url);
     }
 
     @Override
     public RepositoryDto findByFreeText(String text) {
-        return restTemplate.getForObject(urlSearchText + text + MAX_ITEMS_PAGES, RepositoryDto.class);
+        String url = urlSearchText + text + MAX_ITEMS_PAGES;
+        return apiRepositoriesService.findRepositories(url);
+
     }
 
     @Override
-    public RepositoryDto findByTopic(String topic) {
-        return restTemplate.getForObject(urlSearchTopic + topic + MAX_ITEMS_PAGES, RepositoryDto.class);
+    public RepositoryDto findByTextAndLanguage(String text, String language) {
+        String url = urlSearchTopic + text + FILTER_QUERY_ELEMENT + language + MAX_ITEMS_PAGES;
+        return apiRepositoriesService.findRepositories(url);
+
+    }
+
+    @Override
+    public RepositoryDto findDataAndOrderByItem(String text, String language, String item) {
+        String url = urlSearchOrder + text + FILTER_QUERY_ELEMENT + language + SORT_QUERY_ELEMENT + ORDER_TYPE_QUERY_ELEMENT + MAX_ITEMS_PAGES;
+        return apiRepositoriesService.findRepositories(url);
     }
 }

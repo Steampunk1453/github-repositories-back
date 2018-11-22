@@ -6,6 +6,6 @@ public interface SearchRepositoriesService {
 
     RepositoryDto findByLanguage(String language);
     RepositoryDto findByFreeText(String text);
-    RepositoryDto findByTopic(String topic);
-
+    RepositoryDto findByTextAndLanguage(String text, String language);
+    RepositoryDto findDataAndOrderByItem(String text, String language, String item);
 }

@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("repositories")
-public class SearchController {
+public class SearchRepositoriesController {
     private final SearchRepositoriesService searchRepositoriesService;
 
-    public SearchController(SearchRepositoriesService searchRepositoriesService) {
+    public SearchRepositoriesController(SearchRepositoriesService searchRepositoriesService) {
         this.searchRepositoriesService = searchRepositoriesService;
     }
 
@@ -26,8 +26,14 @@ public class SearchController {
         return searchRepositoriesService.findByFreeText(text);
     }
 
-    @GetMapping(path = "/topic/{topic}")
-    public RepositoryDto getByTopic(@PathVariable("topic") String topic){
-        return searchRepositoriesService.findByTopic(topic);
+    @GetMapping(path = "/topic/{text}/{language}")
+    public RepositoryDto getByTextAndField(@PathVariable("text") String text, @PathVariable("language") String language){
+        return searchRepositoriesService.findByTextAndLanguage(text, language);
+    }
+
+    @GetMapping(path = "/sort/{text}/{language}/{orderBy}")
+    public RepositoryDto getSortData(@PathVariable("text") String text, @PathVariable("language") String language,
+                                     @PathVariable("orderBy") String orderBy){
+        return searchRepositoriesService.findDataAndOrderByItem(text, language, orderBy);
     }
 }

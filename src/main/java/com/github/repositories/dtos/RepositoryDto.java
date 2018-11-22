@@ -1,18 +1,14 @@
 package com.github.repositories.dtos;
 
+import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
-import java.time.Instant;
+import java.util.List;
 
 @Data
-public class RepositoryDto {
-    private long id;
+public class RepositoryDto  {
+    @SerializedName("total_count")
     private long total;
-    private String name;
-    private String description;
-    private int stars;
-    private int forks;
-    private Instant updated;
-    private String homepage;
-    private String language;
+    @SerializedName("items")
+    private List<ItemsDto> items;
 }

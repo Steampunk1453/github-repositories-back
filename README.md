@@ -1,7 +1,6 @@
-1. https://api.github.com/search/repositories?q=language:Java
+Back-End application to search information about the Github repositories
 
-2. https://api.github.com/search/repositories?q=pac-man
+* For testing navigate to:
 
-3. https://api.github.com/search/repositories?q=topic:java 
+`http://localhost:8080/swagger-ui.html`
 
-4. https://api.github.com/search/repositories?q=tetris+language:assembly&sort=stars&order=desc
